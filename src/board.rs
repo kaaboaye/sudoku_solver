@@ -57,6 +57,7 @@ impl Board {
             results_set.insert(data.data.as_slice().to_vec());
 
             if results.len() != results_set.len() {
+              println!("Found SOME solutions");
               return results;
             }
           }
@@ -68,6 +69,7 @@ impl Board {
             continue;
           }
 
+          println!("Found all solutions");
           return results;
         }
         Some((idx, _tile)) => {
