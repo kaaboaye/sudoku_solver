@@ -1,16 +1,17 @@
 extern crate nalgebra;
 
+mod board;
 mod tile;
 
-use crate::tile::Tile;
-use nalgebra::DVector;
+use crate::board::Board;
 
 fn main() {
-    let _ = DVector::<Tile>::from_vec(vec![]);
+    let board: String = std::env::args().nth(1).unwrap();
+    let mut board = Board::new_from_str(board);
 
-    for i in 1..9 {
-        dbg!(i);
-    }
+    println!("{}", board);
 
-    println!("Hello, world!");
+    board.apply_constraints();
+
+    println!("{}", board);
 }

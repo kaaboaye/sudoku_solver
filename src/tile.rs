@@ -1,6 +1,8 @@
 use nalgebra::Scalar;
+use std::fmt::Debug;
+use std::fmt::Display;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Tile {
   // Tile can be either constant value or set of possible values
   //
@@ -83,6 +85,30 @@ impl Tile {
     debug_assert!(self.is_set());
 
     self.data.count_ones()
+  }
+}
+
+impl Debug for Tile {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
+    if self.is_constant() {
+      write!(f, "{}", self.value_of_constant())
+    } else {
+      let mut values = Vec::new();
+
+      for i in 1..10 {
+        if self.set_contains(i) {
+          values.push(i)
+        }
+      }
+
+      write!(f, "{:?}", &values)
+    }
+  }
+}
+
+impl Display for Tile {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
+    write!(f, "{:?}", &self)
   }
 }
 
