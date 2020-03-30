@@ -10,7 +10,7 @@ pub struct Board {
 }
 
 impl Board {
-  pub fn new_from_str(data: String) -> Board {
+  pub fn new_from_string(data: String) -> Board {
     let raw: Vec<_> = data
       .chars()
       .map(|c| match c {

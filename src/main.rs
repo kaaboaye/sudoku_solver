@@ -7,7 +7,7 @@ use crate::board::Board;
 
 fn main() {
     let board: String = std::env::args().nth(1).unwrap();
-    let mut board = Board::new_from_str(board);
+    let mut board = Board::new_from_string(board);
 
     println!("{}", board);
 
