@@ -1,5 +1,4 @@
 extern crate nalgebra;
-extern crate stacker;
 
 mod board;
 mod tile;
@@ -7,8 +6,8 @@ mod tile;
 use crate::board::Board;
 
 fn main() {
-    let board: String = std::env::args().nth(1).unwrap();
-    let mut board = Board::new_from_string(board);
+    let args: Vec<String> = std::env::args().collect();
+    let mut board = Board::new_from_string(args[1].clone());
 
     println!("{}", board);
 
@@ -19,4 +18,9 @@ fn main() {
     let board = board.try_solve().unwrap();
 
     println!("{}", board);
+
+    if args.len() >= 3 {
+        let control_board = Board::new_from_string(args[2].clone());
+        println!("{} The same {}", &control_board, board == control_board);
+    }
 }

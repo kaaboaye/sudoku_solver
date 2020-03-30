@@ -59,7 +59,12 @@ impl Tile {
 impl Debug for Tile {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
     let values: Vec<_> = self.iter().collect();
-    write!(f, "{:?}", &values)
+
+    if values.len() == 1 {
+      write!(f, "{}", values[0])
+    } else {
+      write!(f, "{:?}", &values)
+    }
   }
 }
 

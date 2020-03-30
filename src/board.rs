@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 type BoardData = MatrixMN<Tile, U9, U9>;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Board {
   data: BoardData,
 }
@@ -33,8 +33,7 @@ impl Board {
   }
 
   pub fn try_solve(self) -> Result<Board, ()> {
-    let data = stacker::grow(5000000000, || do_try_solve(self.data.clone(), 0, 0))?;
-
+    let data = do_try_solve(self.data.clone(), 0, 0)?;
     Ok(Board { data })
   }
 }
@@ -42,8 +41,8 @@ impl Board {
 fn do_try_solve(data: BoardData, skip_tiles: usize, skip_values: usize) -> Result<BoardData, ()> {
   let tile = data
     .iter()
-    .skip(skip_tiles)
     .enumerate()
+    .skip(skip_tiles)
     .find(|(_idx, tile)| tile.len() > 1);
 
   match tile {
@@ -66,7 +65,7 @@ fn do_try_solve(data: BoardData, skip_tiles: usize, skip_values: usize) -> Resul
         Err(()) => return do_try_solve(data, skip_tiles, skip_values + 1),
 
         // Choose candidate
-        Ok(()) => do_try_solve(data_candidate, 0, 0),
+        Ok(()) => return do_try_solve(data_candidate, 0, 0),
       }
     }
   }
