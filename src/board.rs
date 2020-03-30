@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 type BoardData = MatrixMN<Tile, U9, U9>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Board {
   data: BoardData,
 }
@@ -28,53 +28,111 @@ impl Board {
     Board { data }
   }
 
-  pub fn apply_constraints(&mut self) {
-    for mut row in self.data.row_iter_mut() {
-      let values: Vec<_> = row
-        .iter()
-        .filter(|tile| tile.len() == 1)
-        .map(|tile| tile.get_single_value())
-        .collect();
+  pub fn apply_constraints(&mut self) -> Result<(), ()> {
+    apply_constraints(&mut self.data)
+  }
 
-      for set in row.iter_mut().filter(|tile| tile.len() != 1) {
-        for &value in values.iter() {
-          set.remove(value);
+  pub fn try_solve(self) -> Result<Board, ()> {
+    let data = do_try_solve(self.data.clone(), 0, 0)?;
+    Ok(Board { data })
+  }
+}
+
+fn do_try_solve(data: BoardData, skip_tiles: usize, skip_values: usize) -> Result<BoardData, ()> {
+  let tile = data
+    .iter()
+    .skip(skip_tiles)
+    .enumerate()
+    .find(|(_idx, tile)| tile.len() > 1);
+
+  match tile {
+    None => Ok(data),
+    Some((idx, _tile)) => {
+      let mut data_candidate = data.clone();
+      let tile = data_candidate.iter_mut().nth(idx).unwrap();
+
+      match tile.iter().skip(skip_values).next() {
+        // try next tile
+        None => return do_try_solve(data, idx + 1, 0),
+        Some(value) => {
+          *tile = Tile::new();
+          tile.insert(value);
         }
-      }
-    }
+      };
 
-    for mut col in self.data.column_iter_mut() {
-      let values: Vec<_> = col
-        .iter()
-        .filter(|tile| tile.len() == 1)
-        .map(|tile| tile.get_single_value())
-        .collect();
+      match apply_constraints(&mut data_candidate) {
+        // try next value in tile, if there is no value next tile will be selected
+        Err(()) => return do_try_solve(data, skip_tiles, skip_values + 1),
 
-      for set in col.iter_mut().filter(|tile| tile.len() != 1) {
-        for &value in values.iter() {
-          set.remove(value);
-        }
-      }
-    }
-
-    for i in (0..9).step_by(3) {
-      for j in (0..9).step_by(3) {
-        let mut slice = self.data.slice_mut((i, j), (3, 3));
-
-        let values: Vec<_> = slice
-          .iter()
-          .filter(|tile| tile.len() == 1)
-          .map(|tile| tile.get_single_value())
-          .collect();
-
-        for set in slice.iter_mut().filter(|tile| tile.len() != 1) {
-          for &value in values.iter() {
-            set.remove(value);
-          }
-        }
+        // Choose candidate
+        Ok(()) => do_try_solve(data_candidate, 0, 0),
       }
     }
   }
+}
+
+fn apply_constraints(data: &mut BoardData) -> Result<(), ()> {
+  let previous_data = data.clone();
+  do_apply_constraints(data, previous_data)
+}
+
+fn do_apply_constraints(data: &mut BoardData, previous_data: BoardData) -> Result<(), ()> {
+  // apply rows
+  for mut row in data.row_iter_mut() {
+    let values = values_from_slice(row.iter());
+    remove_invalid_values(row.iter_mut(), &values)?;
+  }
+
+  // apply cols
+  for mut col in data.column_iter_mut() {
+    let values = values_from_slice(col.iter());
+    remove_invalid_values(col.iter_mut(), &values)?;
+  }
+
+  // apply squares
+  for i in (0..9).step_by(3) {
+    for j in (0..9).step_by(3) {
+      let mut slice = data.slice_mut((i, j), (3, 3));
+      let values = values_from_slice(slice.iter());
+      remove_invalid_values(slice.iter_mut(), &values)?;
+    }
+  }
+
+  if *data == previous_data {
+    return Ok(());
+  } else {
+    // check if it's possible to eliminate more possibilities
+    let previous_data = data.clone();
+    do_apply_constraints(data, previous_data)
+  }
+}
+
+fn values_from_slice<'a, T>(iter: T) -> Vec<u16>
+where
+  T: Iterator<Item = &'a Tile>,
+{
+  iter
+    .filter(|tile| tile.len() == 1)
+    .map(|tile| tile.get_single_value())
+    .collect()
+}
+
+fn remove_invalid_values<'a, T>(tiles: T, values: &Vec<u16>) -> Result<(), ()>
+where
+  T: Iterator<Item = &'a mut Tile>,
+{
+  for tile in tiles.filter(|tile| tile.len() != 1) {
+    for &value in values.iter() {
+      tile.remove(value);
+
+      // impossible sudoku
+      if tile.len() == 0 {
+        return Err(());
+      }
+    }
+  }
+
+  Ok(())
 }
 
 impl Display for Board {

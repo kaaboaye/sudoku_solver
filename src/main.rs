@@ -11,7 +11,11 @@ fn main() {
 
     println!("{}", board);
 
-    board.apply_constraints();
+    board.apply_constraints().unwrap();
+
+    println!("{}", board);
+
+    let board = board.try_solve().unwrap();
 
     println!("{}", board);
 }
