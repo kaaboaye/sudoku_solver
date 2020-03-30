@@ -1,5 +1,6 @@
 use crate::tile::Tile;
 use nalgebra::{MatrixMN, U9};
+use std::collections::HashSet;
 use std::fmt::Display;
 
 type BoardData = MatrixMN<Tile, U9, U9>;
@@ -32,40 +33,78 @@ impl Board {
     apply_constraints(&mut self.data)
   }
 
-  pub fn try_solve(self) -> Result<Board, ()> {
-    let data = do_try_solve(self.data.clone(), 0, 0)?;
-    Ok(Board { data })
-  }
-}
+  pub fn solve(&self) -> Vec<Board> {
+    let mut results = Vec::<Board>::new();
+    let mut results_set = HashSet::<Vec<Tile>>::new();
+    let mut versions = Vec::<(BoardData, usize, usize)>::new();
+    let mut data = self.data.clone();
+    let mut skip_tiles = 0 as usize;
+    let mut skip_values = 0 as usize;
 
-fn do_try_solve(data: BoardData, skip_tiles: usize, skip_values: usize) -> Result<BoardData, ()> {
-  let tile = data
-    .iter()
-    .enumerate()
-    .skip(skip_tiles)
-    .find(|(_idx, tile)| tile.len() > 1);
+    loop {
+      let tile = data
+        .iter()
+        .enumerate()
+        .skip(skip_tiles)
+        .find(|(_idx, tile)| tile.len() > 1);
 
-  match tile {
-    None => Ok(data),
-    Some((idx, _tile)) => {
-      let mut data_candidate = data.clone();
-      let tile = data_candidate.iter_mut().nth(idx).unwrap();
+      match tile {
+        None => {
+          // Check if it's a valid solution
+          let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
+          if let None = tile {
+            results.push(Board { data: data.clone() });
+            results_set.insert(data.data.as_slice().to_vec());
 
-      match tile.iter().skip(skip_values).next() {
-        // try next tile
-        None => return do_try_solve(data, idx + 1, 0),
-        Some(value) => {
-          *tile = Tile::new();
-          tile.insert(value);
+            if results.len() != results_set.len() {
+              return results;
+            }
+          }
+
+          if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {
+            data = new_data;
+            skip_tiles = new_skip_tiles;
+            skip_values = new_skip_values + 1;
+            continue;
+          }
+
+          return results;
         }
-      };
+        Some((idx, _tile)) => {
+          let mut data_candidate = data.clone();
+          let tile = data_candidate.iter_mut().nth(idx).unwrap();
 
-      match apply_constraints(&mut data_candidate) {
-        // try next value in tile, if there is no value next tile will be selected
-        Err(()) => return do_try_solve(data, skip_tiles, skip_values + 1),
+          match tile.iter().skip(skip_values).next() {
+            // try next tile
+            None => {
+              skip_tiles = idx + 1;
+              skip_values = 0;
+              continue;
+            }
+            Some(value) => {
+              *tile = Tile::new();
+              tile.insert(value);
+            }
+          };
 
-        // Choose candidate
-        Ok(()) => return do_try_solve(data_candidate, 0, 0),
+          match apply_constraints(&mut data_candidate) {
+            // Reject candidate
+            // and try next value in tile, if there is no value next tile will be selected
+            Err(()) => {
+              skip_values += 1;
+              continue;
+            }
+
+            // Choose candidate
+            Ok(()) => {
+              versions.push((data.clone(), skip_tiles, skip_values));
+              data = data_candidate;
+              skip_tiles = 0;
+              skip_values = 0;
+              continue;
+            }
+          }
+        }
       }
     }
   }
@@ -113,7 +152,7 @@ where
 {
   iter
     .filter(|tile| tile.len() == 1)
-    .map(|tile| tile.get_single_value())
+    .map(|tile| tile.next())
     .collect()
 }
 

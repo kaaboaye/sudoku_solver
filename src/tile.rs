@@ -1,6 +1,8 @@
 use nalgebra::Scalar;
 use std::fmt::Debug;
 use std::fmt::Display;
+use std::hash::Hash;
+use std::hash::Hasher;
 
 #[derive(Clone, PartialEq, Eq)]
 /// Tile is a set of possible values
@@ -46,7 +48,7 @@ impl Tile {
   }
 
   #[inline]
-  pub fn get_single_value(&self) -> u16 {
+  pub fn next(&self) -> u16 {
     self.data.trailing_zeros() as u16
   }
 
@@ -74,6 +76,12 @@ impl Display for Tile {
   }
 }
 
+impl Hash for Tile {
+  fn hash<H: Hasher>(&self, state: &mut H) {
+    self.data.hash(state);
+  }
+}
+
 impl Scalar for Tile {}
 
 pub struct TileIter {
@@ -88,7 +96,7 @@ impl Iterator for TileIter {
       return None;
     }
 
-    let next_value = self.tile.get_single_value();
+    let next_value = self.tile.next();
     self.tile.remove(next_value);
     Some(next_value)
   }
@@ -205,7 +213,7 @@ mod tests {
         }
       }
 
-      let value = tile.get_single_value();
+      let value = tile.next();
       assert_eq!(value, i);
     }
   }
