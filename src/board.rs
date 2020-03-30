@@ -33,7 +33,8 @@ impl Board {
   }
 
   pub fn try_solve(self) -> Result<Board, ()> {
-    let data = do_try_solve(self.data.clone(), 0, 0)?;
+    let data = stacker::grow(5000000000, || do_try_solve(self.data.clone(), 0, 0))?;
+
     Ok(Board { data })
   }
 }

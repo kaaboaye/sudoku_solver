@@ -1,4 +1,5 @@
 extern crate nalgebra;
+extern crate stacker;
 
 mod board;
 mod tile;
