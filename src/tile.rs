@@ -21,10 +21,10 @@ pub struct Tile {
 }
 
 impl Tile {
-  pub fn new_constant(value: u8) -> Tile {
+  pub fn new_constant(value: u16) -> Tile {
     debug_assert!((1..10).contains(&value));
 
-    let data = (1 << 10) | value as u16;
+    let data = (1 << 10) | value;
     Tile { data }
   }
 
@@ -41,27 +41,38 @@ impl Tile {
     (self.data & (1 << 10)) == 0
   }
 
-  pub fn value_of_constant(&self) -> u8 {
+  pub fn value_of_constant(&self) -> u16 {
     assert!(self.is_constant());
-    (self.data & 0x00ff) as u8
+
+    (self.data & 0x00ff)
   }
 
-  pub fn set_contains(&self, value: u8) -> bool {
-    debug_assert!((1..10).contains(&value));
+  pub fn transform_set_into_constant(&mut self) {
+    assert_eq!(self.set_len(), 1);
 
+    // x86 tzcnt instruction <3
+    let value = self.data.trailing_zeros();
+    let Tile { data } = Tile::new_constant(value as u16);
+    self.data = data;
+  }
+
+  pub fn set_contains(&self, value: u16) -> bool {
+    debug_assert!((1..10).contains(&value));
     assert!(self.is_set());
+
     (self.data & (1 << value)) != 0
   }
 
-  pub fn set_remove(&mut self, value: u8) {
+  pub fn set_remove(&mut self, value: u16) {
     debug_assert!((1..10).contains(&value));
-
     assert!(self.is_set());
+
     self.data &= !(1 << value);
   }
 
   pub fn set_len(&self) -> u32 {
     assert!(self.is_set());
+
     self.data.count_ones()
   }
 }
@@ -132,5 +143,23 @@ mod tests {
     set_tile.set_remove(8);
 
     assert_eq!(set_tile.set_len(), 7);
+  }
+
+  #[test]
+  fn test_transform_set_into_constant() {
+    for i in 1..10 {
+      let mut tile = Tile::new_full_set();
+
+      // leave only one value in set
+      for x in 1..10 {
+        if x != i {
+          tile.set_remove(x);
+        }
+      }
+
+      tile.transform_set_into_constant();
+
+      assert_eq!(tile.value_of_constant(), i);
+    }
   }
 }
