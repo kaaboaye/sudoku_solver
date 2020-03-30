@@ -4,17 +4,9 @@ use std::fmt::Display;
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct Tile {
-  // Tile can be either constant value or set of possible values
+  // Tile is a set of possible values
   //
-  // When it is constant it has 11'th bit from right side set to 1
-  // and left byte has this constant value binary encoded
-  //
-  // Examples
-  // `0b0000010000000100` means `Constant(4)`
-  // `0b0000010000000001` means `Constant(1)`
-  //
-  // When tile is a set of possible values 11'th bit is set to 0
-  // and bits from 10 to 1 are representing possible values
+  // Bits from 10 to 1 are representing possible values
   //
   // Examples
   // `0b0000000000010110` means `Set([1, 2, 4])`
@@ -24,85 +16,62 @@ pub struct Tile {
 
 impl Tile {
   #[inline]
-  pub fn new_constant(value: u16) -> Tile {
-    debug_assert!((1..10).contains(&value));
-
-    let data = (1 << 10) | value;
-    Tile { data }
+  pub fn new() -> Tile {
+    Tile { data: 0 }
   }
 
   #[inline]
   pub fn new_full_set() -> Tile {
-    let data = 0b0000001111111110;
-    Tile { data }
+    Tile {
+      data: 0b0000001111111110,
+    }
   }
 
   #[inline]
-  pub fn is_constant(&self) -> bool {
-    (self.data & (1 << 10)) != 0
-  }
-
-  #[inline]
-  pub fn is_set(&self) -> bool {
-    (self.data & (1 << 10)) == 0
-  }
-
-  #[inline]
-  pub fn value_of_constant(&self) -> u16 {
-    debug_assert!(self.is_constant());
-
-    (self.data & 0x00ff)
-  }
-
-  #[inline]
-  pub fn transform_set_into_constant(&mut self) {
-    debug_assert_eq!(self.set_len(), 1);
-
-    // x86 tzcnt instruction <3
-    let value = self.data.trailing_zeros();
-    let Tile { data } = Tile::new_constant(value as u16);
-    self.data = data;
-  }
-
-  #[inline]
-  pub fn set_contains(&self, value: u16) -> bool {
+  pub fn insert(&mut self, value: u16) {
     debug_assert!((1..10).contains(&value));
-    debug_assert!(self.is_set());
+
+    self.data |= 1 << value;
+  }
+
+  #[inline]
+  pub fn contains(&self, value: u16) -> bool {
+    debug_assert!((1..10).contains(&value));
 
     (self.data & (1 << value)) != 0
   }
 
   #[inline]
-  pub fn set_remove(&mut self, value: u16) {
+  pub fn remove(&mut self, value: u16) {
     debug_assert!((1..10).contains(&value));
-    debug_assert!(self.is_set());
 
     self.data &= !(1 << value);
   }
 
   #[inline]
-  pub fn set_len(&self) -> u32 {
-    debug_assert!(self.is_set());
-
+  pub fn len(&self) -> u32 {
     self.data.count_ones()
+  }
+
+  #[inline]
+  pub fn get_single_value(&self) -> u16 {
+    debug_assert_eq!(self.len(), 1);
+
+    self.data.trailing_zeros() as u16
   }
 }
 
 impl Debug for Tile {
   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
-    if self.is_constant() {
-      write!(f, "{}", self.value_of_constant())
-    } else {
-      let mut values = Vec::new();
+    let mut values = Vec::new();
 
-      for i in 1..10 {
-        if self.set_contains(i) {
-          values.push(i)
-        }
+    for i in 1..10 {
+      if self.contains(i) {
+        values.push(i)
       }
-
-      write!(f, "{:?}", &values)
     }
+
+    write!(f, "{:?}", &values)
   }
 }
 
@@ -119,42 +88,63 @@ mod tests {
   use super::*;
 
   #[test]
-  fn constant_tile() {
-    let constant_tile = Tile::new_constant(3);
-    assert!(constant_tile.is_constant());
-    assert!(!constant_tile.is_set());
-    assert_eq!(constant_tile.value_of_constant(), 3);
+  fn test_new() {
+    let tile = Tile::new();
+    assert_eq!(tile.len(), 0);
+  }
+
+  #[test]
+  fn test_new_full_set() {
+    let tile = Tile::new_full_set();
+    assert_eq!(tile.len(), 9);
+  }
+
+  #[test]
+  fn test_insert() {
+    let mut tile = Tile::new();
+
+    assert_eq!(tile.len(), 0);
+
+    tile.insert(3);
+    assert_eq!(tile.len(), 1);
+    assert!(tile.contains(3));
+
+    tile.insert(3);
+    assert_eq!(tile.len(), 1);
+    assert!(tile.contains(3));
+
+    tile.insert(4);
+    assert_eq!(tile.len(), 2);
+    assert!(tile.contains(3));
+    assert!(tile.contains(4));
   }
 
   #[test]
   fn set_tile_contains() {
     let mut tile = Tile { data: 0b110 };
 
-    assert!(tile.set_contains(1));
-    assert!(tile.set_contains(2));
+    assert!(tile.contains(1));
+    assert!(tile.contains(2));
 
-    tile.set_remove(1);
+    tile.remove(1);
 
-    assert!(!tile.set_contains(1));
-    assert!(tile.set_contains(2));
+    assert!(!tile.contains(1));
+    assert!(tile.contains(2));
   }
 
   #[test]
   fn set_tile_remove() {
-    let mut set_tile = Tile::new_full_set();
-
-    assert!(set_tile.is_set());
-    assert!(!set_tile.is_constant());
+    let mut tile = Tile::new_full_set();
 
     for i in 1..10 {
-      assert!(set_tile.set_contains(i));
+      assert!(tile.contains(i));
     }
 
-    set_tile.set_remove(3);
-    set_tile.set_remove(8);
+    tile.remove(3);
+    tile.remove(8);
 
     for i in 1..10 {
-      assert_eq!(set_tile.set_contains(i), i != 3 && i != 8);
+      assert_eq!(tile.contains(i), i != 3 && i != 8);
     }
   }
 
@@ -162,39 +152,35 @@ mod tests {
   fn set_tile_len1() {
     let tile = Tile { data: 0b110 };
 
-    assert_eq!(tile.set_len(), 2);
+    assert_eq!(tile.len(), 2);
   }
 
   #[test]
   fn set_tile_len2() {
     let mut set_tile = Tile::new_full_set();
 
-    assert!(set_tile.is_set());
-    assert!(!set_tile.is_constant());
+    assert_eq!(set_tile.len(), 9);
 
-    assert_eq!(set_tile.set_len(), 9);
+    set_tile.remove(3);
+    set_tile.remove(8);
 
-    set_tile.set_remove(3);
-    set_tile.set_remove(8);
-
-    assert_eq!(set_tile.set_len(), 7);
+    assert_eq!(set_tile.len(), 7);
   }
 
   #[test]
-  fn test_transform_set_into_constant() {
+  fn test_get_single_value_some() {
     for i in 1..10 {
       let mut tile = Tile::new_full_set();
 
       // leave only one value in set
       for x in 1..10 {
         if x != i {
-          tile.set_remove(x);
+          tile.remove(x);
         }
       }
 
-      tile.transform_set_into_constant();
-
-      assert_eq!(tile.value_of_constant(), i);
+      let value = tile.get_single_value();
+      assert_eq!(value, i);
     }
   }
 }

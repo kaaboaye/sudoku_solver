@@ -17,7 +17,9 @@ impl Board {
         '.' => Tile::new_full_set(),
         d => {
           let value = d.to_digit(10).unwrap();
-          Tile::new_constant(value as u16)
+          let mut tile = Tile::new();
+          tile.insert(value as u16);
+          tile
         }
       })
       .collect();
@@ -30,13 +32,13 @@ impl Board {
     for mut row in self.data.row_iter_mut() {
       let values: Vec<_> = row
         .iter()
-        .filter(|tile| tile.is_constant())
-        .map(|constant| constant.value_of_constant())
+        .filter(|tile| tile.len() == 1)
+        .map(|tile| tile.get_single_value())
         .collect();
 
-      for set in row.iter_mut().filter(|tile| tile.is_set()) {
+      for set in row.iter_mut().filter(|tile| tile.len() != 1) {
         for &value in values.iter() {
-          set.set_remove(value);
+          set.remove(value);
         }
       }
     }
@@ -44,13 +46,13 @@ impl Board {
     for mut col in self.data.column_iter_mut() {
       let values: Vec<_> = col
         .iter()
-        .filter(|tile| tile.is_constant())
-        .map(|constant| constant.value_of_constant())
+        .filter(|tile| tile.len() == 1)
+        .map(|tile| tile.get_single_value())
         .collect();
 
-      for set in col.iter_mut().filter(|tile| tile.is_set()) {
+      for set in col.iter_mut().filter(|tile| tile.len() != 1) {
         for &value in values.iter() {
-          set.set_remove(value);
+          set.remove(value);
         }
       }
     }
@@ -61,13 +63,13 @@ impl Board {
 
         let values: Vec<_> = slice
           .iter()
-          .filter(|tile| tile.is_constant())
-          .map(|constant| constant.value_of_constant())
+          .filter(|tile| tile.len() == 1)
+          .map(|tile| tile.get_single_value())
           .collect();
 
-        for set in slice.iter_mut().filter(|tile| tile.is_set()) {
+        for set in slice.iter_mut().filter(|tile| tile.len() != 1) {
           for &value in values.iter() {
-            set.set_remove(value);
+            set.remove(value);
           }
         }
       }
