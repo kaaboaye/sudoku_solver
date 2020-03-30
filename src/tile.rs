@@ -22,6 +22,8 @@ pub struct Tile {
 
 impl Tile {
   pub fn new_constant(value: u8) -> Tile {
+    debug_assert!((1..10).contains(&value));
+
     let data = (1 << 10) | value as u16;
     Tile { data }
   }
@@ -45,11 +47,15 @@ impl Tile {
   }
 
   pub fn set_contains(&self, value: u8) -> bool {
+    debug_assert!((1..10).contains(&value));
+
     assert!(self.is_set());
     (self.data & (1 << value)) != 0
   }
 
   pub fn set_remove(&mut self, value: u8) {
+    debug_assert!((1..10).contains(&value));
+
     assert!(self.is_set());
     self.data &= !(1 << value);
   }
