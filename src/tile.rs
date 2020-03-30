@@ -3,9 +3,8 @@ use std::fmt::Debug;
 use std::fmt::Display;
 
 #[derive(Clone, PartialEq, Eq)]
+/// Tile is a set of possible values
 pub struct Tile {
-  // Tile is a set of possible values
-  //
   // Bits from 10 to 1 are representing possible values
   //
   // Examples
