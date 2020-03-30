@@ -35,13 +35,13 @@ impl Tile {
     (self.data & (1 << 10)) != 0
   }
 
+  pub fn is_set(&self) -> bool {
+    (self.data & (1 << 10)) == 0
+  }
+
   pub fn value_of_constant(&self) -> u8 {
     assert!(self.is_constant());
     (self.data & 0x00ff) as u8
-  }
-
-  pub fn is_set(&self) -> bool {
-    (self.data & (1 << 10)) == 0
   }
 
   pub fn set_contains(&self, value: u8) -> bool {
@@ -52,6 +52,11 @@ impl Tile {
   pub fn set_remove(&mut self, value: u8) {
     assert!(self.is_set());
     self.data &= !(1 << value);
+  }
+
+  pub fn set_len(&self) -> u32 {
+    assert!(self.is_set());
+    self.data.count_ones()
   }
 }
 
@@ -70,7 +75,20 @@ mod tests {
   }
 
   #[test]
-  fn set_tile() {
+  fn set_tile_contains() {
+    let mut tile = Tile { data: 0b110 };
+
+    assert!(tile.set_contains(1));
+    assert!(tile.set_contains(2));
+
+    tile.set_remove(1);
+
+    assert!(!tile.set_contains(1));
+    assert!(tile.set_contains(2));
+  }
+
+  #[test]
+  fn set_tile_remove() {
     let mut set_tile = Tile::new_full_set();
 
     assert!(set_tile.is_set());
@@ -89,15 +107,24 @@ mod tests {
   }
 
   #[test]
-  fn set_tile_contains() {
-    let mut tile = Tile { data: 0b110 };
+  fn set_tile_len1() {
+    let tile = Tile { data: 0b110 };
 
-    assert!(tile.set_contains(1));
-    assert!(tile.set_contains(2));
+    assert_eq!(tile.set_len(), 2);
+  }
 
-    tile.set_remove(1);
+  #[test]
+  fn set_tile_len2() {
+    let mut set_tile = Tile::new_full_set();
 
-    assert!(!tile.set_contains(1));
-    assert!(tile.set_contains(2));
+    assert!(set_tile.is_set());
+    assert!(!set_tile.is_constant());
+
+    assert_eq!(set_tile.set_len(), 9);
+
+    set_tile.set_remove(3);
+    set_tile.set_remove(8);
+
+    assert_eq!(set_tile.set_len(), 7);
   }
 }
