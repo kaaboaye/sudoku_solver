@@ -14,7 +14,7 @@ impl Board {
     let raw: Vec<_> = data
       .chars()
       .map(|c| match c {
-        '.' => Tile::new_full_set(),
+        '.' => Tile::new_full(),
         d => {
           let value = d.to_digit(10).unwrap();
           let mut tile = Tile::new();
@@ -32,13 +32,16 @@ impl Board {
     apply_constraints(&mut self.data)
   }
 
-  pub fn solve(self) -> Board {
+  pub fn solve(self) -> (Board, usize) {
     let mut versions = Vec::<(BoardData, usize, usize)>::new();
     let mut data = self.data;
     let mut skip_tiles = 0 as usize;
     let mut skip_values = 0 as usize;
+    let mut iterations = 0 as usize;
 
     loop {
+      iterations += 1;
+
       let tile = data
         .iter()
         .enumerate()
@@ -50,7 +53,7 @@ impl Board {
           // Check if it's a valid solution
           let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
           if let None = tile {
-            return Board { data };
+            return (Board { data }, iterations);
           }
 
           if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {

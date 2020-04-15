@@ -13,6 +13,6 @@ fn main() {
 
     println!("{}", board);
 
-    let solution = board.solve();
-    println!("{}", solution);
+    let (solution, iterations) = board.solve();
+    println!("Calculated in {} iterations {}", iterations, solution);
 }

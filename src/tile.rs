@@ -22,7 +22,7 @@ impl Tile {
   }
 
   #[inline]
-  pub fn new_full_set() -> Tile {
+  pub fn new_full() -> Tile {
     Tile {
       data: 0b0000001111111110,
     }
@@ -128,8 +128,8 @@ mod tests {
   }
 
   #[test]
-  fn test_new_full_set() {
-    let tile = Tile::new_full_set();
+  fn test_new_full() {
+    let tile = Tile::new_full();
     assert_eq!(tile.len(), 9);
   }
 
@@ -168,7 +168,7 @@ mod tests {
 
   #[test]
   fn set_tile_remove() {
-    let mut tile = Tile::new_full_set();
+    let mut tile = Tile::new_full();
 
     for i in 1..10 {
       assert!(contains(&tile, i));
@@ -191,7 +191,7 @@ mod tests {
 
   #[test]
   fn set_tile_len2() {
-    let mut set_tile = Tile::new_full_set();
+    let mut set_tile = Tile::new_full();
 
     assert_eq!(set_tile.len(), 9);
 
@@ -204,7 +204,7 @@ mod tests {
   #[test]
   fn test_get_single_value_some() {
     for i in 1..10 {
-      let mut tile = Tile::new_full_set();
+      let mut tile = Tile::new_full();
 
       // leave only one value in set
       for x in 1..10 {
