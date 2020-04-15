@@ -1,6 +1,5 @@
 use crate::tile::Tile;
 use nalgebra::{MatrixMN, U9};
-use std::collections::HashSet;
 use std::fmt::Display;
 
 type BoardData = MatrixMN<Tile, U9, U9>;
@@ -33,11 +32,9 @@ impl Board {
     apply_constraints(&mut self.data)
   }
 
-  pub fn solve(&self) -> Vec<Board> {
-    let mut results = Vec::<Board>::new();
-    let mut results_set = HashSet::<Vec<Tile>>::new();
+  pub fn solve(self) -> Board {
     let mut versions = Vec::<(BoardData, usize, usize)>::new();
-    let mut data = self.data.clone();
+    let mut data = self.data;
     let mut skip_tiles = 0 as usize;
     let mut skip_values = 0 as usize;
 
@@ -53,13 +50,7 @@ impl Board {
           // Check if it's a valid solution
           let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
           if let None = tile {
-            results.push(Board { data: data.clone() });
-            results_set.insert(data.data.as_slice().to_vec());
-
-            if results.len() != results_set.len() {
-              println!("Found SOME solutions");
-              return results;
-            }
+            return Board { data };
           }
 
           if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {
@@ -68,9 +59,6 @@ impl Board {
             skip_values = new_skip_values + 1;
             continue;
           }
-
-          println!("Found all solutions");
-          return results;
         }
         Some((idx, _tile)) => {
           let mut data_candidate = data.clone();
@@ -112,6 +100,7 @@ impl Board {
   }
 }
 
+#[inline]
 fn apply_constraints(data: &mut BoardData) -> Result<(), ()> {
   let previous_data = data.clone();
   do_apply_constraints(data, previous_data)

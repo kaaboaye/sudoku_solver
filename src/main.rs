@@ -13,15 +13,6 @@ fn main() {
 
     println!("{}", board);
 
-    let solutions = board.solve();
-
-    println!("SOLUTIONS {}", solutions.len());
-    for solution in solutions {
-        println!("{}", solution);
-    }
-
-    // if args.len() >= 3 {
-    //     let control_board = Board::new_from_string(args[2].clone());
-    //     println!("{} The same {}", &control_board, board == control_board);
-    // }
+    let solution = board.solve();
+    println!("{}", solution);
 }
