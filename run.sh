@@ -8,4 +8,3 @@ cat assets/Sudoku.csv \
 | tr \; ' ' \
 | xargs -n 3 -L 1 bash -c 'echo Executing puzzle $0 with difficulty $1; ./target/release/sudoku_solver $2' \
 > assets/solutions.txt
-
