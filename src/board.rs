@@ -66,6 +66,8 @@ impl Board {
             skip_values = new_skip_values + 1;
             continue;
           }
+
+          panic!("invalid sudoku");
         }
         Some((idx, _tile)) => {
           let mut data_candidate = data.clone();
