@@ -13,7 +13,8 @@ Executing puzzle 1 with difficulty 0.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 12 iterations 
+Calculated with 11 tried values and 2 wrong guesses
+
   ┌                   ┐
   │ 6 1 8 2 5 5 9 3 7 │
   │ 2 7 3 1 4 9 6 5 8 │
@@ -42,7 +43,8 @@ Executing puzzle 2 with difficulty 0.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 39 iterations 
+Calculated with 29 tried values and 21 wrong guesses
+
   ┌                   ┐
   │ 1 3 8 7 4 9 6 5 2 │
   │ 2 5 9 6 8 1 4 7 3 │
@@ -71,7 +73,8 @@ Executing puzzle 3 with difficulty 0.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 103 iterations 
+Calculated with 73 tried values and 64 wrong guesses
+
   ┌                   ┐
   │ 1 7 3 6 2 5 4 9 4 │
   │ 5 6 2 4 1 9 3 8 7 │
@@ -100,7 +103,8 @@ Executing puzzle 4 with difficulty 0.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 4 iterations 
+Calculated with 3 tried values and 0 wrong guesses
+
   ┌                   ┐
   │ 4 2 3 5 7 8 1 6 9 │
   │ 6 1 8 9 3 2 5 7 4 │
@@ -129,7 +133,8 @@ Executing puzzle 5 with difficulty 0.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 114 iterations 
+Calculated with 82 tried values and 72 wrong guesses
+
   ┌                   ┐
   │ 1 2 8 6 8 3 9 7 5 │
   │ 3 9 5 7 4 4 1 8 2 │
@@ -158,7 +163,8 @@ Executing puzzle 6 with difficulty 1.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 19 iterations 
+Calculated with 16 tried values and 6 wrong guesses
+
   ┌                   ┐
   │ 3 4 9 7 1 6 8 5 2 │
   │ 2 5 6 3 8 3 4 1 7 │
@@ -187,7 +193,8 @@ Executing puzzle 7 with difficulty 1.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 5 iterations 
+Calculated with 4 tried values and 0 wrong guesses
+
   ┌                   ┐
   │ 2 9 4 5 8 5 7 1 3 │
   │ 6 7 3 4 1 2 5 8 9 │
@@ -216,7 +223,8 @@ Executing puzzle 8 with difficulty 1.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 83 iterations 
+Calculated with 61 tried values and 49 wrong guesses
+
   ┌                   ┐
   │ 4 9 2 3 1 8 6 7 6 │
   │ 6 7 8 9 4 5 1 2 3 │
@@ -245,7 +253,8 @@ Executing puzzle 9 with difficulty 1.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 15 iterations 
+Calculated with 12 tried values and 5 wrong guesses
+
   ┌                   ┐
   │ 1 3 7 4 9 8 2 5 2 │
   │ 7 8 5 2 6 1 4 3 9 │
@@ -274,7 +283,8 @@ Executing puzzle 10 with difficulty 1.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 10 iterations 
+Calculated with 8 tried values and 3 wrong guesses
+
   ┌                   ┐
   │ 1 6 3 5 5 7 2 4 8 │
   │ 7 8 9 1 2 4 3 6 5 │
@@ -303,7 +313,8 @@ Executing puzzle 11 with difficulty 2.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 10 iterations 
+Calculated with 9 tried values and 1 wrong guesses
+
   ┌                   ┐
   │ 1 2 7 5 9 4 6 4 3 │
   │ 3 5 9 2 8 6 7 1 7 │
@@ -332,7 +343,8 @@ Executing puzzle 12 with difficulty 2.0
   └                                                                                                                                                 ┘
 
 
-Calculated in 20 iterations 
+Calculated with 16 tried values and 10 wrong guesses
+
   ┌                   ┐
   │ 2 7 9 8 1 3 4 5 4 │
   │ 4 1 5 7 7 9 6 8 2 │
@@ -361,7 +373,8 @@ Executing puzzle 13 with difficulty 2.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 12 iterations 
+Calculated with 10 tried values and 3 wrong guesses
+
   ┌                   ┐
   │ 3 5 9 4 7 8 6 2 1 │
   │ 6 8 1 2 3 3 9 7 5 │
@@ -390,7 +403,8 @@ Executing puzzle 14 with difficulty 2.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 42 iterations 
+Calculated with 32 tried values and 22 wrong guesses
+
   ┌                   ┐
   │ 2 9 6 5 1 8 3 7 4 │
   │ 5 3 8 4 7 9 1 2 6 │
@@ -419,7 +433,8 @@ Executing puzzle 15 with difficulty 2.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 13 iterations 
+Calculated with 12 tried values and 3 wrong guesses
+
   ┌                   ┐
   │ 1 8 6 7 9 5 4 3 2 │
   │ 9 7 2 1 4 3 5 6 8 │
@@ -448,7 +463,8 @@ Executing puzzle 16 with difficulty 3.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 2 iterations 
+Calculated with 1 tried values and 0 wrong guesses
+
   ┌                   ┐
   │ 4 5 8 3 2 9 6 1 7 │
   │ 3 1 2 5 6 7 4 8 9 │
@@ -477,7 +493,8 @@ Executing puzzle 17 with difficulty 3.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 16 iterations 
+Calculated with 12 tried values and 8 wrong guesses
+
   ┌                   ┐
   │ 1 9 9 5 7 8 3 2 4 │
   │ 2 4 6 3 9 6 5 7 8 │
@@ -506,7 +523,8 @@ Executing puzzle 18 with difficulty 3.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 13 iterations 
+Calculated with 12 tried values and 3 wrong guesses
+
   ┌                   ┐
   │ 4 5 3 1 9 6 7 8 2 │
   │ 6 1 3 8 2 9 7 5 4 │
@@ -535,7 +553,8 @@ Executing puzzle 19 with difficulty 3.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 210 iterations 
+Calculated with 148 tried values and 131 wrong guesses
+
   ┌                   ┐
   │ 4 1 6 8 2 5 3 9 7 │
   │ 2 5 8 3 7 4 6 1 9 │
@@ -564,7 +583,8 @@ Executing puzzle 20 with difficulty 3.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 113 iterations 
+Calculated with 83 tried values and 71 wrong guesses
+
   ┌                   ┐
   │ 1 6 4 3 7 8 5 2 2 │
   │ 3 7 5 1 6 2 4 8 9 │
@@ -593,7 +613,8 @@ Executing puzzle 21 with difficulty 4.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 49 iterations 
+Calculated with 37 tried values and 27 wrong guesses
+
   ┌                   ┐
   │ 3 4 7 5 1 2 8 6 9 │
   │ 2 1 1 5 8 9 7 3 4 │
@@ -622,7 +643,8 @@ Executing puzzle 22 with difficulty 4.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 57 iterations 
+Calculated with 43 tried values and 31 wrong guesses
+
   ┌                   ┐
   │ 8 2 9 6 3 4 5 7 1 │
   │ 7 4 5 6 1 2 3 8 9 │
@@ -651,7 +673,8 @@ Executing puzzle 23 with difficulty 4.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 31 iterations 
+Calculated with 25 tried values and 16 wrong guesses
+
   ┌                   ┐
   │ 1 7 6 2 8 3 5 9 4 │
   │ 2 4 5 9 1 7 3 6 8 │
@@ -680,7 +703,8 @@ Executing puzzle 24 with difficulty 4.0
   └                                                                                                                                                                                                                                  ┘
 
 
-Calculated in 97 iterations 
+Calculated with 71 tried values and 60 wrong guesses
+
   ┌                   ┐
   │ 2 6 7 1 3 9 5 4 8 │
   │ 3 1 5 4 8 8 9 7 6 │
@@ -709,7 +733,8 @@ Executing puzzle 25 with difficulty 4.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 22 iterations 
+Calculated with 18 tried values and 11 wrong guesses
+
   ┌                   ┐
   │ 8 1 5 4 9 6 7 3 2 │
   │ 2 7 6 5 3 8 1 4 9 │
@@ -738,7 +763,8 @@ Executing puzzle 26 with difficulty 5.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 12 iterations 
+Calculated with 11 tried values and 2 wrong guesses
+
   ┌                   ┐
   │ 5 1 2 9 7 4 3 9 8 │
   │ 4 8 9 5 2 3 1 6 7 │
@@ -767,7 +793,8 @@ Executing puzzle 27 with difficulty 5.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 7 iterations 
+Calculated with 6 tried values and 1 wrong guesses
+
   ┌                   ┐
   │ 8 1 2 3 5 5 4 7 9 │
   │ 9 4 3 7 1 6 8 5 2 │
@@ -796,7 +823,8 @@ Executing puzzle 28 with difficulty 5.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 9 iterations 
+Calculated with 8 tried values and 2 wrong guesses
+
   ┌                   ┐
   │ 2 1 7 5 9 5 4 3 8 │
   │ 8 3 7 4 6 2 5 1 9 │
@@ -825,7 +853,8 @@ Executing puzzle 29 with difficulty 5.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 15 iterations 
+Calculated with 14 tried values and 3 wrong guesses
+
   ┌                   ┐
   │ 1 7 8 6 3 5 6 2 4 │
   │ 3 4 6 2 8 1 9 7 5 │
@@ -854,7 +883,8 @@ Executing puzzle 30 with difficulty 5.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 30 iterations 
+Calculated with 24 tried values and 12 wrong guesses
+
   ┌                   ┐
   │ 2 1 4 3 6 9 5 9 8 │
   │ 3 8 9 4 5 2 7 1 6 │
@@ -883,7 +913,8 @@ Executing puzzle 31 with difficulty 6.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 22 iterations 
+Calculated with 18 tried values and 8 wrong guesses
+
   ┌                   ┐
   │ 2 4 6 7 3 8 9 5 1 │
   │ 3 1 8 5 2 6 9 7 4 │
@@ -912,7 +943,8 @@ Executing puzzle 32 with difficulty 6.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 46 iterations 
+Calculated with 35 tried values and 26 wrong guesses
+
   ┌                   ┐
   │ 2 9 8 6 7 5 4 6 1 │
   │ 1 4 7 9 8 9 3 2 9 │
@@ -941,7 +973,8 @@ Executing puzzle 33 with difficulty 6.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 33 iterations 
+Calculated with 26 tried values and 15 wrong guesses
+
   ┌                   ┐
   │ 5 3 6 2 7 4 1 9 8 │
   │ 1 9 7 8 5 6 4 2 3 │
@@ -970,7 +1003,8 @@ Executing puzzle 34 with difficulty 6.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 6 iterations 
+Calculated with 5 tried values and 0 wrong guesses
+
   ┌                   ┐
   │ 2 1 5 8 9 3 7 6 4 │
   │ 4 7 9 2 6 1 8 5 3 │
@@ -999,7 +1033,8 @@ Executing puzzle 35 with difficulty 6.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 9 iterations 
+Calculated with 8 tried values and 1 wrong guesses
+
   ┌                   ┐
   │ 3 7 9 2 4 6 8 5 1 │
   │ 5 1 4 8 7 3 6 9 2 │
@@ -1028,7 +1063,8 @@ Executing puzzle 36 with difficulty 7.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 11 iterations 
+Calculated with 10 tried values and 1 wrong guesses
+
   ┌                   ┐
   │ 7 6 8 3 4 1 2 5 2 │
   │ 4 2 9 8 5 5 1 6 3 │
@@ -1057,7 +1093,8 @@ Executing puzzle 37 with difficulty 7.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 43 iterations 
+Calculated with 32 tried values and 23 wrong guesses
+
   ┌                   ┐
   │ 2 9 6 5 1 4 7 3 7 │
   │ 3 5 4 7 8 2 1 9 6 │
@@ -1086,7 +1123,8 @@ Executing puzzle 38 with difficulty 7.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 43 iterations 
+Calculated with 32 tried values and 23 wrong guesses
+
   ┌                   ┐
   │ 2 9 6 5 1 4 7 3 7 │
   │ 3 5 4 7 8 2 1 9 6 │
@@ -1115,7 +1153,8 @@ Executing puzzle 39 with difficulty 7.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 43 iterations 
+Calculated with 32 tried values and 23 wrong guesses
+
   ┌                   ┐
   │ 2 9 6 5 1 4 7 3 7 │
   │ 3 5 4 7 8 2 1 9 6 │
@@ -1144,7 +1183,8 @@ Executing puzzle 40 with difficulty 7.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 43 iterations 
+Calculated with 32 tried values and 23 wrong guesses
+
   ┌                   ┐
   │ 2 9 6 5 1 4 7 3 7 │
   │ 3 5 4 7 8 2 1 9 6 │
@@ -1173,7 +1213,8 @@ Executing puzzle 41 with difficulty 8.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 29 iterations 
+Calculated with 25 tried values and 13 wrong guesses
+
   ┌                   ┐
   │ 3 4 7 5 1 2 8 8 6 │
   │ 2 1 1 8 4 9 7 5 3 │
@@ -1202,7 +1243,8 @@ Executing puzzle 42 with difficulty 8.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 18 iterations 
+Calculated with 16 tried values and 4 wrong guesses
+
   ┌                   ┐
   │ 8 2 9 1 4 5 7 3 7 │
   │ 7 4 5 6 3 2 1 8 9 │
@@ -1231,7 +1273,8 @@ Executing puzzle 43 with difficulty 8.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 32 iterations 
+Calculated with 26 tried values and 16 wrong guesses
+
   ┌                   ┐
   │ 1 7 6 2 8 3 5 9 4 │
   │ 2 4 5 9 1 7 3 6 8 │
@@ -1260,7 +1303,8 @@ Executing puzzle 44 with difficulty 9.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 71 iterations 
+Calculated with 51 tried values and 42 wrong guesses
+
   ┌                   ┐
   │ 3 6 7 2 1 9 5 4 8 │
   │ 2 1 5 4 3 8 9 7 6 │
@@ -1289,7 +1333,8 @@ Executing puzzle 45 with difficulty 9.0
   └                                                                                                                                                                                                       ┘
 
 
-Calculated in 13 iterations 
+Calculated with 11 tried values and 4 wrong guesses
+
   ┌                   ┐
   │ 8 3 1 4 9 4 7 5 2 │
   │ 5 7 6 6 2 8 1 4 9 │
@@ -1318,7 +1363,8 @@ Executing puzzle 46 with difficulty 9.0
   └                                                                                                                                                                            ┘
 
 
-Calculated in 38 iterations 
+Calculated with 30 tried values and 19 wrong guesses
+
   ┌                   ┐
   │ 5 1 2 9 6 4 3 7 8 │
   │ 8 8 3 5 1 7 9 6 4 │

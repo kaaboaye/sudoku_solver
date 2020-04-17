@@ -9,6 +9,12 @@ pub struct Board {
   data: BoardData,
 }
 
+pub struct BoardSolution {
+  pub board: Board,
+  pub tried_values: u32,
+  pub field_attempts: u32,
+}
+
 impl Board {
   pub fn new_from_string(data: String) -> Result<Board, ()> {
     let raw: Vec<_> = data
@@ -36,16 +42,14 @@ impl Board {
     apply_constraints(&mut self.data)
   }
 
-  pub fn solve(self) -> (Board, usize) {
-    let mut versions = Vec::<(BoardData, usize, usize)>::new();
+  pub fn solve(self) -> BoardSolution {
     let mut data = self.data;
     let mut skip_tiles = 0 as usize;
     let mut skip_values = 0 as usize;
-    let mut iterations = 0 as usize;
+    let mut tried_values = 0 as u32;
+    let mut field_attempts = 0 as u32;
 
     loop {
-      iterations += 1;
-
       let selected_tile = data
         .iter()
         .enumerate()
@@ -64,6 +68,8 @@ impl Board {
             continue;
           }
           Some(value) => {
+            tried_values += 1;
+
             *tile = Tile::new();
             tile.insert(value);
           }
@@ -73,12 +79,12 @@ impl Board {
           // Reject candidate
           // and try next value in tile, if there is no value next tile will be selected
           Err(()) => {
+            field_attempts += 1;
             skip_values += 1;
           }
 
           // Choose candidate
           Ok(()) => {
-            versions.push((data.clone(), skip_tiles, skip_values));
             data = data_candidate;
             skip_tiles = 0;
             skip_values = 0;
@@ -91,14 +97,11 @@ impl Board {
       // Check if it's a valid solution
       let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
       if let None = tile {
-        return (Board { data }, iterations);
-      }
-
-      if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {
-        data = new_data;
-        skip_tiles = new_skip_tiles;
-        skip_values = new_skip_values + 1;
-        continue;
+        return BoardSolution {
+          board: Board { data },
+          tried_values,
+          field_attempts,
+        };
       }
 
       panic!("invalid sudoku");
