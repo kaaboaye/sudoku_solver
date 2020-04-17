@@ -46,65 +46,62 @@ impl Board {
     loop {
       iterations += 1;
 
-      let tile = data
+      let selected_tile = data
         .iter()
         .enumerate()
         .skip(skip_tiles)
         .find(|(_idx, tile)| tile.len() > 1);
 
-      match tile {
-        None => {
-          // Check if it's a valid solution
-          let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
-          if let None = tile {
-            return (Board { data }, iterations);
-          }
+      if let Some((idx, _tile)) = selected_tile {
+        let mut data_candidate = data.clone();
+        let tile = data_candidate.iter_mut().nth(idx).unwrap();
 
-          if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {
-            data = new_data;
-            skip_tiles = new_skip_tiles;
-            skip_values = new_skip_values + 1;
+        match tile.iter().skip(skip_values).next() {
+          // try next tile
+          None => {
+            skip_tiles = idx + 1;
+            skip_values = 0;
             continue;
           }
+          Some(value) => {
+            *tile = Tile::new();
+            tile.insert(value);
+          }
+        };
 
-          panic!("invalid sudoku");
-        }
-        Some((idx, _tile)) => {
-          let mut data_candidate = data.clone();
-          let tile = data_candidate.iter_mut().nth(idx).unwrap();
+        match apply_constraints(&mut data_candidate) {
+          // Reject candidate
+          // and try next value in tile, if there is no value next tile will be selected
+          Err(()) => {
+            skip_values += 1;
+          }
 
-          match tile.iter().skip(skip_values).next() {
-            // try next tile
-            None => {
-              skip_tiles = idx + 1;
-              skip_values = 0;
-              continue;
-            }
-            Some(value) => {
-              *tile = Tile::new();
-              tile.insert(value);
-            }
-          };
-
-          match apply_constraints(&mut data_candidate) {
-            // Reject candidate
-            // and try next value in tile, if there is no value next tile will be selected
-            Err(()) => {
-              skip_values += 1;
-              continue;
-            }
-
-            // Choose candidate
-            Ok(()) => {
-              versions.push((data.clone(), skip_tiles, skip_values));
-              data = data_candidate;
-              skip_tiles = 0;
-              skip_values = 0;
-              continue;
-            }
+          // Choose candidate
+          Ok(()) => {
+            versions.push((data.clone(), skip_tiles, skip_values));
+            data = data_candidate;
+            skip_tiles = 0;
+            skip_values = 0;
           }
         }
+
+        continue;
       }
+
+      // Check if it's a valid solution
+      let tile = data.iter().take(skip_tiles).find(|tile| tile.len() > 1);
+      if let None = tile {
+        return (Board { data }, iterations);
+      }
+
+      if let Some((new_data, new_skip_tiles, new_skip_values)) = versions.pop() {
+        data = new_data;
+        skip_tiles = new_skip_tiles;
+        skip_values = new_skip_values + 1;
+        continue;
+      }
+
+      panic!("invalid sudoku");
     }
   }
 }
