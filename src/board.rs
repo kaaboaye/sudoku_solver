@@ -10,7 +10,7 @@ pub struct Board {
 }
 
 impl Board {
-  pub fn new_from_string(data: String) -> Board {
+  pub fn new_from_string(data: String) -> Result<Board, ()> {
     let raw: Vec<_> = data
       .chars()
       .map(|c| match c {
@@ -24,8 +24,12 @@ impl Board {
       })
       .collect();
 
+    if raw.len() != 81 {
+      Err(())?
+    }
+
     let data = BoardData::from_vec(raw);
-    Board { data }
+    Ok(Board { data })
   }
 
   pub fn apply_constraints(&mut self) -> Result<(), ()> {

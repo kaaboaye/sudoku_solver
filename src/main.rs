@@ -7,9 +7,9 @@ use crate::board::Board;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let mut board = Board::new_from_string(args[1].clone());
+    let mut board = Board::new_from_string(args[1].clone()).expect("incorrect sudoku");
 
-    board.apply_constraints().unwrap();
+    board.apply_constraints().expect("incorrect sudoku");
 
     println!("{}", board);
 
